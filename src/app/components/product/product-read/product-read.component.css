@@ -10,3 +10,7 @@ i.delete {
   margin-left: 10px;
   color: #e35e6b;
 }
+
+.spinner {
+  margin: 50px;
+}

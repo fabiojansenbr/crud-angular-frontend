@@ -9,6 +9,8 @@ import { ProductService } from '../product.service';
 })
 export class ProductReadComponent implements OnInit {
 
+  isLoading = true;
+
   products: Product[];
   displayedColumns = ['id', 'name', 'price', 'actions'];
 
@@ -17,6 +19,7 @@ export class ProductReadComponent implements OnInit {
   ngOnInit(): void {
     this.productService.read().subscribe((products) => {
       this.products = products;
+      this.isLoading = false;
 
       console.log(products);
     })
