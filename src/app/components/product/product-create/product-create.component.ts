@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { Product } from "../product.model";
 import { ProductService } from "../product.service";
@@ -14,12 +15,33 @@ export class ProductCreateComponent implements OnInit {
     price: null,
   };
 
-  constructor(private productService: ProductService, private router: Router) {}
+  myForm: FormGroup;
 
-  ngOnInit(): void {}
+  constructor(
+    private productService: ProductService,
+    private router: Router,
+    private fb: FormBuilder
+  ) {}
+
+  ngOnInit(): void {
+    this.myForm = this.fb.group({
+      name: ["", Validators.required],
+      price: [null, [Validators.required, Validators.min(1)]],
+    });
+  }
+
+  get name() {
+    return this.myForm.get("name");
+  }
+
+  get price() {
+    return this.myForm.get("price");
+  }
 
   createProduct(): void {
-    this.productService.create(this.product).subscribe(() => {
+    console.log("valor:", this.myForm.value);
+
+    this.productService.create(this.myForm.value).subscribe(() => {
       this.productService.showMessage("Produto criado com sucesso");
       this.router.navigate(["/products"]);
     });
